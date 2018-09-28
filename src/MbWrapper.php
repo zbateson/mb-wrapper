@@ -299,7 +299,7 @@ class MbWrapper
         if (self::$mbListedEncodings === null) {
             $cs = mb_list_encodings();
             $keys = $this->getNormalizedCharset($cs);
-            self::$mbListedEncodings = array_combine($cs, $keys);
+            self::$mbListedEncodings = array_combine($keys, $cs);
         }
     }
 
@@ -318,7 +318,7 @@ class MbWrapper
         } else {
             $upper = strtoupper($charset);
         }
-        return preg_replace('/[^A-Z0-9]+/', '', $charset);
+        return preg_replace('/[^A-Z0-9]+/', '', $upper);
     }
     
     /**
