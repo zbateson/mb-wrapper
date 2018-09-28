@@ -2,7 +2,6 @@
     "name": "zbateson/mb-wrapper",
     "description": "Wrapper for mbstring with fallback to iconv for encoding conversion and string manipulation",
     "keywords": ["mb_convert_encoding", "charset", "encoding", "string", "mbstring", "iconv", "multibyte", "mb", "mime", "mail", "http"],
-    "homepage": "https://github.com/zbateson/StreamDecorators",
     "license": "BSD-2-Clause",
     "authors": [
         {
