@@ -1,6 +1,6 @@
 # zbateson/mb-wrapper
 
-Psr7 stream decorators for character set conversion and common mail format content encodings.
+Charset conversion and string manipulation wrapper with a large defined set of aliases.
 
 [![Build Status](https://travis-ci.org/zbateson/mb-wrapper.svg?branch=master)](https://travis-ci.org/zbateson/mb-wrapper)
 [![Code Coverage](https://scrutinizer-ci.com/g/zbateson/mb-wrapper/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/zbateson/mb-wrapper/?branch=master)
