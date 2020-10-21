@@ -182,7 +182,7 @@ class MbWrapper
         '1255' => 'ISO-8859-8',
         '8859' => 'ISO-8859-1',
     ];
-    
+
     /**
      * @var array aliased charsets supported by iconv.
      */
@@ -320,15 +320,15 @@ class MbWrapper
         }
         return preg_replace('/[^A-Z0-9]+/', '', $upper);
     }
-    
+
     /**
      * Converts the passed string's charset from the passed $fromCharset to the
      * passed $toCharset
-     * 
+     *
      * The function attempts to use mb_convert_encoding if possible, and falls
      * back to iconv if not.  If the source or destination character sets aren't
      * supported, a blank string is returned.
-     * 
+     *
      * @param string $str
      * @return string
      */
@@ -338,7 +338,7 @@ class MbWrapper
         // HZ isn't supported), and so it may happen that failing an mb_convert_encoding, an iconv
         // may also fail even though both support an encoding separately.
         // For cases like that, a two-way encoding is done with UTF-8 as an intermediary.
-        
+
         $from = $this->getMbCharset($fromCharset);
         $to = $this->getMbCharset($toCharset);
 
@@ -414,6 +414,12 @@ class MbWrapper
             return mb_substr($str, $start, $length, $mb);
         }
         $ic = $this->getIconvAlias($charset);
+        if ($ic === 'CP1258') {
+            // iconv_substr fails with CP1258 for some reason, and returns only
+            // a subset of characters (e.g. the first 5, instead of $length)
+            $str = $this->convert($str, $ic, 'UTF-8');
+            return $this->convert($this->getSubstr($str, 'UTF-8', $start, $length), 'UTF-8', $ic);
+        }
         if ($length === null) {
             $length = iconv_strlen($str, $ic);
         }
@@ -448,7 +454,7 @@ class MbWrapper
     /**
      * Looks up the passed charset in self::$iconvAliases, returning the mapped
      * charset if applicable.  Otherwise returns charset.
-     * 
+     *
      * @param string $cs
      * @return string the mapped charset (if mapped) or $cs otherwise
      */

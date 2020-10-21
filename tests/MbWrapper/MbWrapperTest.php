@@ -154,7 +154,7 @@ class MbWrapperTest extends TestCase
         $test = $converter->convert($str, 'UTF-8', $first);
 
         // seems to fail only on CP1258, returns incorrect number of characters with iconv_substr
-        $arr = array_diff($arr, ['CP1258']);
+        // $arr = array_diff($arr);
 
         foreach ($arr as $dest) {
             $testConv = $converter->convert($test, $first, $dest);
