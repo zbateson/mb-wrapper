@@ -345,14 +345,14 @@ class MbWrapper
         if ($str !== '') {
             if ($from !== false && $to === false) {
                 $str = mb_convert_encoding($str, 'UTF-8', $from);
-                return iconv('UTF-8', $this->getIconvAlias($toCharset) . '//TRANSLIT//IGNORE', $str);
+                return @iconv('UTF-8', $this->getIconvAlias($toCharset) . '//TRANSLIT//IGNORE', $str);
             } elseif ($from === false && $to !== false) {
-                $str = iconv($this->getIconvAlias($fromCharset), 'UTF-8//TRANSLIT//IGNORE', $str);
+                $str = @iconv($this->getIconvAlias($fromCharset), 'UTF-8//TRANSLIT//IGNORE', $str);
                 return mb_convert_encoding($str, $to, 'UTF-8');
             } elseif ($from !== false && $to !== false) {
                 return mb_convert_encoding($str, $to, $from);
             }
-            return iconv(
+            return @iconv(
                 $this->getIconvAlias($fromCharset),
                 $this->getIconvAlias($toCharset) . '//TRANSLIT//IGNORE',
                 $str
