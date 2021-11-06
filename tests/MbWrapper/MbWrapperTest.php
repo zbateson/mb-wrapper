@@ -112,8 +112,13 @@ class MbWrapperTest extends TestCase
         $len = mb_strlen($str, 'UTF-8');
         $first = reset($arr);
         $test = $converter->convert($str, 'UTF-8', $first);
-        foreach ($arr as $dest) {
-            $this->assertEquals($len, $converter->getLength($converter->convert($test, $first, $dest), $dest));
+        foreach ($arr as $key => $dest) {
+            $this->assertEquals(
+                $len,
+                $converter->getLength($converter->convert($test, $first, $dest), $dest),
+                'Failing on iteration: ' . $key . ' with charset: ' . $dest . ', converted string: '
+                    . $converter->convert($test, $first, $dest)
+            );
         }
     }
 
