@@ -95,7 +95,7 @@ class MbWrapperTest extends TestCase
     {
         $arr = array_unique(MbWrapper::$mbAliases);
         $converter = new MbWrapper();
-        $str = 'هلا والله بالغالي';
+        $str = 'Needs to be simple';
         $len = mb_strlen($str, 'UTF-8');
         $first = reset($arr);
         $test = $converter->convert($str, 'UTF-8', $first);
