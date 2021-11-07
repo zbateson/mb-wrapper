@@ -12,8 +12,7 @@ use LegacyPHPUnit\TestCase;
 class MbWrapperTest extends TestCase
 {
     // CP1258 failing on some platforms (returns -1 chars for strlen for some reason)
-    // CP037 failing on Windows
-    private $iconvSkip = [ 'CP1258', 'CP037' ];
+    private $iconvSkip = [ 'CP1258' ];
 
     public function testMbCharsetConversion()
     {
