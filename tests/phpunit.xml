@@ -8,6 +8,11 @@
     stopOnFailure="false"
     stopOnIncomplete="false"
     stopOnSkipped="false">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">../src/</directory>
+        </include>
+    </coverage>
     <testsuites>
         <testsuite name="MbWrapper">
             <directory suffix="Test.php">MbWrapper</directory>
