@@ -150,6 +150,7 @@ class MbWrapper
         'SHIFTJIS2004' => 'SJIS',
         'SHIFTJIS' => 'SJIS',
         'UJIS' => 'EUC-JP',
+        'UNICODE11UTF7' => 'UTF-7',
         'US' => 'ASCII',
         'USASCII' => 'ASCII',
         'WE8MSWIN1252' => 'WINDOWS-1252',
