@@ -44,6 +44,7 @@ class MbWrapper
         'ASMO708' => 'ISO-8859-6',
         'BIG5' => 'BIG-5',
         'BIG5TW' => 'BIG-5',
+        'CESU8' => 'UTF-8',
         'CHINESE' => 'GB18030',
         'CP367' => 'ASCII',
         'CP819' => 'ISO-8859-1',
@@ -189,6 +190,7 @@ class MbWrapper
      */
     public static $iconvAliases = [
         // iconv aliases -- a lot of these may already be supported
+        'CESU8' => 'UTF8',
         'CP154' => 'PT154',
         'CPGR' => 'CP869',
         'CPIS' => 'CP861',
