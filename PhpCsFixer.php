@@ -24,9 +24,9 @@ return $config
         // Ensure there is no code on the same line as the PHP open tag and it is followed by a blank line.
         'blank_line_after_opening_tag' => true,
         // An empty line feed must precede any configured statement.
-        'blank_line_before_statement' => ['statements'=>['break','case','continue','declare','default','exit','do','exit','for','foreach','goto','if','return','switch','throw','try','while','yield']],
+        'blank_line_before_statement' => false,
         // A single space or none should be between cast and variable.
-        'cast_spaces' => ['space'=>'none'],
+        'cast_spaces' => ['space'=>'single'],
         // Class, trait and interface elements must be separated with one or none blank line.
         'class_attributes_separation' => true,
         // Whitespace around the keywords of a class, trait or interfaces definition should be one space.
@@ -38,7 +38,7 @@ return $config
         // Calling `unset` on multiple items should be done in one call.
         'combine_consecutive_unsets' => true,
         // Replace multiple nested calls of `dirname` by only one call with second `$level` parameter. Requires PHP >= 7.0.
-        'combine_nested_dirname' => true,
+        'combine_nested_dirname' => false,
         // Comments with annotation should be docblock when used on structural elements.
         'comment_to_phpdoc' => false,
         // Remove extra spaces in a nullable typehint.
@@ -58,9 +58,9 @@ return $config
         // Replace deprecated `ereg` regular expression functions with `preg`.
         'ereg_to_preg' => true,
         // Add curly braces to indirect variables to make them clear to understand. Requires PHP >= 7.0.
-        'explicit_indirect_variable' => true,
+        'explicit_indirect_variable' => false,
         // Converts implicit variables into explicit ones in double-quoted strings or heredoc syntax.
-        'explicit_string_variable' => true,
+        'explicit_string_variable' => false,
         // Order the flags in `fopen` calls, `b` and `t` must be last.
         'fopen_flag_order' => true,
         // PHP code must use the long `<?php` tags or short-echo `<?=` tags and not other tag variations.
@@ -86,7 +86,7 @@ return $config
         // Ensure there is no code on the same line as the PHP open tag.
         'linebreak_after_opening_tag' => true,
         // List (`array` destructuring) assignment should be declared using the configured syntax. Requires PHP >= 7.1.
-        'list_syntax' => ['syntax'=>'short'],
+        'list_syntax' => false,
         // Use `&&` and `||` logical operators instead of `and` and `or`.
         'logical_operators' => true,
         // Cast should be written in lower case.
@@ -158,7 +158,7 @@ return $config
         // There MUST be no trailing spaces inside comment or PHPDoc.
         'no_trailing_whitespace_in_comment' => true,
         // Removes unneeded parentheses around control statements.
-        'no_unneeded_control_parentheses' => true,
+        'no_unneeded_control_parentheses' => false,
         // Removes unneeded curly braces that are superfluous and aren't part of a control structure's body.
         'no_unneeded_curly_braces' => true,
         // A `final` class must not have `final` methods and `private` methods must not be `final`.
@@ -186,13 +186,13 @@ return $config
         // Array index should always be written by using square braces.
         'normalize_index_brace' => true,
         // Logical NOT operators (`!`) should have one trailing whitespace.
-        'not_operator_with_successor_space' => true,
+        'not_operator_with_successor_space' => false,
         // Adds or removes `?` before type declarations for parameters with a default `null` value.
         'nullable_type_declaration_for_default_null_value' => true,
         // There should not be space before or after object operators `->` and `?->`.
         'object_operator_without_whitespace' => true,
         // Orders the elements of classes/interfaces/traits.
-        'ordered_class_elements' => ['order'=>['use_trait','constant_public','constant_protected','constant_private','property_public','property_protected','property_private','construct','destruct','magic','phpunit','method_public','method_protected','method_private']],
+        'ordered_class_elements' => ['order'=>['use_trait','constant_public','constant_protected','constant_private','property_public','property_protected','property_private']],
         // Ordering `use` statements.
         'ordered_imports' => true,
         // Orders the interfaces in an `implements` or `interface extends` clause.
@@ -222,11 +222,11 @@ return $config
         // Cast `(boolean)` and `(integer)` should be written as `(bool)` and `(int)`, `(double)` and `(real)` as `(float)`, `(binary)` as `(string)`.
         'short_scalar_cast' => true,
         // Converts explicit variables in double-quoted strings and heredoc syntax from simple to complex format (`${` to `{$`).
-        'simple_to_complex_string_variable' => true,
+        'simple_to_complex_string_variable' => false,
         // Simplify `if` control structures that return the boolean result of their condition.
         'simplified_if_return' => true,
         // A return statement wishing to return `void` should not return `null`.
-        'simplified_null_return' => true,
+        'simplified_null_return' => false,
         // A PHP file without end tag must always end with a single empty line feed.
         'single_blank_line_at_eof' => true,
         // There should be exactly one blank line before a namespace declaration.
@@ -246,7 +246,7 @@ return $config
         // Replace all `<>` with `!=`.
         'standardize_not_equals' => true,
         // Lambdas not (indirect) referencing `$this` must be declared `static`.
-        'static_lambda' => true,
+        'static_lambda' => false,
         // All multi-line strings must use correct line ending.
         'string_line_ending' => true,
         // A case should be followed by a colon and not a semicolon.
@@ -260,7 +260,7 @@ return $config
         // Use the Elvis operator `?:` where possible.
         'ternary_to_elvis_operator' => true,
         // Use `null` coalescing operator `??` where possible. Requires PHP >= 7.0.
-        'ternary_to_null_coalescing' => true,
+        'ternary_to_null_coalescing' => false,
         // Arrays should be formatted like function/method arguments, without leading or trailing single line space.
         'trim_array_spaces' => true,
         // Unary operators should be placed adjacent to their operands.
@@ -272,6 +272,6 @@ return $config
         // In array declaration, there MUST be a whitespace after each comma.
         'whitespace_after_comma_in_array' => true,
         // Write conditions in Yoda style (`true`), non-Yoda style (`['equal' => false, 'identical' => false, 'less_and_greater' => false]`) or ignore those conditions (`null`) based on configuration.
-        'yoda_style' => true,
+        'yoda_style' => false,
     ]);
 
