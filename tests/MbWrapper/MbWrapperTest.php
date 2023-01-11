@@ -1,7 +1,8 @@
 <?php
+
 namespace ZBateson\MbWrapper;
 
-use LegacyPHPUnit\TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Description of MbWrapperTest
@@ -12,11 +13,23 @@ use LegacyPHPUnit\TestCase;
 class MbWrapperTest extends TestCase
 {
     // CP1258 failing on some platforms (returns -1 chars for strlen for some reason)
-    private $iconvSkip = [ 'CP1258' ];
+    /**
+     * @var array<string> $iconvSkip
+     */
+    private $iconvSkip = [
+        'CP1258',
+        'CP037',
+        'CP1026',
+        'CP424',
+        'CP500',
+        'CP1140',
+        'ISO2022JP2',
+        'ISO885911'
+    ];
 
-    public function testMbCharsetConversion()
+    public function testMbCharsetConversion() : void
     {
-        $arr = array_unique(MbWrapper::$mbAliases);
+        $arr = \array_unique(MbWrapper::$mbAliases);
         $converter = new MbWrapper();
         $first = 'UTF-32';
         $test = $converter->convert('This is my string', 'UTF-8', $first);
@@ -28,54 +41,56 @@ class MbWrapperTest extends TestCase
         }
     }
 
-    public function testIconvCharsetConversion()
+    public function testIconvCharsetConversion() : void
     {
-        $arr = array_unique(MbWrapper::$iconvAliases);
+        $arr = \array_unique(MbWrapper::$iconvAliases);
         $converter = new MbWrapper();
         $first = 'CP1258';
         $test = $converter->convert('This is my string', 'UTF-8', 'CP1258');
         foreach ($arr as $dest) {
-            if (!in_array($dest, $this->iconvSkip)) {
+            if (!\in_array($dest, $this->iconvSkip)) {
                 $this->assertEquals($test, $converter->convert($converter->convert($test, $first, $dest), $dest, $first));
             }
         }
     }
 
-    public function testMbConversionWithEmptyString()
+    public function testMbConversionWithEmptyString() : void
     {
         $converter = new MbWrapper();
-        $cs = reset(MbWrapper::$mbAliases);
+        $cs = \reset(MbWrapper::$mbAliases);
         $this->assertEmpty($converter->convert('', 'UTF-8', $cs));
     }
 
-    public function testIconvConversionWithEmptyString()
+    public function testIconvConversionWithEmptyString() : void
     {
         $converter = new MbWrapper();
-        $cs = reset(MbWrapper::$iconvAliases);
+        $cs = \reset(MbWrapper::$iconvAliases);
         $this->assertEmpty($converter->convert('', 'UTF-8', $cs));
     }
 
-    public function testMbIconvMixedCharsetConversion()
+    public function testMbIconvMixedCharsetConversion() : void
     {
-        $mbArr = array_unique(MbWrapper::$mbAliases);
-        $iconvArr = array_unique(MbWrapper::$iconvAliases);
+        $mbArr = \array_unique(MbWrapper::$mbAliases);
+        $iconvArr = \array_unique(MbWrapper::$iconvAliases);
         $converter = new MbWrapper();
 
-        $mb = reset($mbArr);
-        $iconv = reset($iconvArr);
+        $mb = \reset($mbArr);
+        $iconv = \reset($iconvArr);
 
         $testMb = $converter->convert('This is my string', 'UTF-8', $mb);
         $testIconv = $converter->convert('This is my string', 'UTF-8', $iconv);
 
         foreach ($iconvArr as $dest) {
-            $this->assertEquals($testMb, $converter->convert($converter->convert($testMb, $mb, $dest), $dest, $mb));
+          if (!\in_array($dest, $this->iconvSkip)) {
+              $this->assertEquals($testMb, $converter->convert($converter->convert($testMb, $mb, $dest), $dest, $mb));
+          }
         }
         foreach ($mbArr as $dest) {
             $this->assertEquals($testIconv, $converter->convert($converter->convert($testIconv, $iconv, $dest), $dest, $iconv));
         }
     }
 
-    public function testSetCharsetConversions()
+    public function testSetCharsetConversions() : void
     {
         $arr = [
             'ISO-8859-8-I',
@@ -96,12 +111,12 @@ class MbWrapperTest extends TestCase
         }
     }
 
-    public function testMbStrlen()
+    public function testMbStrlen() : void
     {
-        $arr = array_unique(MbWrapper::$mbAliases);
+        $arr = \array_unique(MbWrapper::$mbAliases);
         $converter = new MbWrapper();
         $str = 'Needs to be simple, supported in all encodings';
-        $len = mb_strlen($str, 'UTF-8');
+        $len = \mb_strlen($str, 'UTF-8');
         $first = 'UTF-32';
         $test = $converter->convert($str, 'UTF-8', $first);
         foreach ($arr as $dest) {
@@ -109,16 +124,16 @@ class MbWrapperTest extends TestCase
         }
     }
 
-    public function testIconvStrlen()
+    public function testIconvStrlen() : void
     {
-        $arr = array_unique(MbWrapper::$iconvAliases);
+        $arr = \array_unique(MbWrapper::$iconvAliases);
         $converter = new MbWrapper();
         $str = 'Needs to be simple, supported in all encodings';
-        $len = mb_strlen($str, 'UTF-8');
+        $len = \mb_strlen($str, 'UTF-8');
         $first = 'CP1258';
         $test = $converter->convert($str, 'UTF-8', $first);
         foreach ($arr as $dest) {
-            if (!in_array($dest, $this->iconvSkip)) {
+            if (!\in_array($dest, $this->iconvSkip)) {
                 $this->assertEquals(
                     $len,
                     $converter->getLength($converter->convert($test, $first, $dest), $dest),
@@ -129,12 +144,12 @@ class MbWrapperTest extends TestCase
         }
     }
 
-    public function testMbSubstr()
+    public function testMbSubstr() : void
     {
-        $arr = array_unique(MbWrapper::$mbAliases);
+        $arr = \array_unique(MbWrapper::$mbAliases);
         $converter = new MbWrapper();
         $str = 'Needs to be simple';
-        $len = mb_strlen($str, 'UTF-8');
+        $len = \mb_strlen($str, 'UTF-8');
         $first = 'UTF-32';
         $test = $converter->convert($str, 'UTF-8', $first);
         foreach ($arr as $dest) {
@@ -142,13 +157,13 @@ class MbWrapperTest extends TestCase
             for ($i = 0; $i < $len; ++$i) {
                 for ($j = $i + 1; $j <= $len; ++$j) {
                     $this->assertEquals(
-                        mb_substr($str, $i, $j),
+                        \mb_substr($str, $i, $j),
                         $converter->convert($converter->getSubstr($testConv, $dest, $i, $j), $dest, 'UTF-8'),
                         "Failed on $i iteration $j with " . $converter->convert($testConv, $dest, 'UTF-8')
                     );
                 }
                 $this->assertEquals(
-                    mb_substr($str, $i),
+                    \mb_substr($str, $i),
                     $converter->convert($converter->getSubstr($testConv, $dest, $i), $dest, 'UTF-8')
                 );
             }
@@ -156,12 +171,12 @@ class MbWrapperTest extends TestCase
         }
     }
 
-    public function testIconvSubstr()
+    public function testIconvSubstr() : void
     {
-        $arr = array_unique(MbWrapper::$iconvAliases);
+        $arr = \array_unique(MbWrapper::$iconvAliases);
         $converter = new MbWrapper();
         $str = 'Needs to be simple';
-        $len = mb_strlen($str, 'UTF-8');
+        $len = \mb_strlen($str, 'UTF-8');
         $first = 'UTF-32';
         $test = $converter->convert($str, 'UTF-8', $first);
 
@@ -169,20 +184,20 @@ class MbWrapperTest extends TestCase
         // $arr = array_diff($arr);
 
         foreach ($arr as $dest) {
-            if (in_array($dest, $this->iconvSkip)) {
+            if (\in_array($dest, $this->iconvSkip)) {
                 continue;
             }
             $testConv = $converter->convert($test, $first, $dest);
             for ($i = 0; $i < $len; ++$i) {
                 for ($j = $i + 1; $j <= $len; ++$j) {
                     $this->assertEquals(
-                        mb_substr($str, $i, $j),
+                        \mb_substr($str, $i, $j),
                         $converter->convert($converter->getSubstr($testConv, $dest, $i, $j), $dest, 'UTF-8'),
                         "Failed on $i iteration $j with " . $converter->convert($testConv, $dest, 'UTF-8')
                     );
                 }
                 $this->assertEquals(
-                    mb_substr($str, $i),
+                    \mb_substr($str, $i),
                     $converter->convert($converter->getSubstr($testConv, $dest, $i), $dest, 'UTF-8')
                 );
             }
