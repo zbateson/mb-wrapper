@@ -389,7 +389,7 @@ class MbWrapper
         if ($mb !== false) {
             return \mb_strlen($str, $mb);
         }
-        return \iconv_strlen($str, $this->getIconvAlias($charset));
+        return \iconv_strlen($str, $this->getIconvAlias($charset) . '//TRANSLIT//IGNORE');
     }
 
     /**
@@ -410,9 +410,9 @@ class MbWrapper
             return $this->convert($this->getSubstr($str, 'UTF-8', $start, $length), 'UTF-8', $ic);
         }
         if ($length === null) {
-            $length = \iconv_strlen($str, $ic);
+            $length = \iconv_strlen($str, $ic . '//TRANSLIT//IGNORE');
         }
-        return \iconv_substr($str, $start, $length, $ic);
+        return \iconv_substr($str, $start, $length, $ic . '//TRANSLIT//IGNORE');
     }
 
     /**
