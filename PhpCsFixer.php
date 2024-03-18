@@ -42,7 +42,7 @@ return $config
         // Comments with annotation should be docblock when used on structural elements.
         'comment_to_phpdoc' => false,
         // Remove extra spaces in a nullable typehint.
-        'compact_nullable_typehint' => true,
+        'compact_nullable_type_declaration' => true,
         // Concatenation should be spaced according configuration.
         'concat_space' => ['spacing'=>'one'],
         // The PHP constants `true`, `false`, and `null` MUST be written using the correct casing.
@@ -70,7 +70,7 @@ return $config
         // Replace core functions calls returning constants with the constants.
         'function_to_constant' => true,
         // Ensure single space between function's argument and its typehint.
-        'function_typehint_space' => true,
+        'type_declaration_spaces' => true,
         // Renames PHPDoc tags.
         'general_phpdoc_tag_rename' => true,
         // Function `implode` must be called with 2 arguments in the documented order.
@@ -112,9 +112,9 @@ return $config
         // Add leading `\` before function invocation to speed up resolving.
         'native_function_invocation' => ['include'=>['@all','trans']],
         // Native type hints for functions should use the correct case.
-        'native_function_type_declaration_casing' => true,
+        'native_type_declaration_casing' => true,
         // All instances created with new keyword must be followed by braces.
-        'new_with_braces' => true,
+        'new_with_parentheses' => true,
         // Master functions shall be used instead of aliases.
         'no_alias_functions' => true,
         // Master language constructs shall be used instead of aliases.
@@ -149,8 +149,6 @@ return $config
         'no_short_bool_cast' => true,
         // When making a method or function call, there MUST NOT be a space between the method or function name and the opening parenthesis.
         'no_spaces_after_function_name' => true,
-        // There MUST NOT be a space after the opening parenthesis. There MUST NOT be a space before the closing parenthesis.
-        'no_spaces_inside_parenthesis' => true,
         // Removes `@param`, `@return` and `@var` tags that don't provide any useful information.
         'no_superfluous_phpdoc_tags' => true,
         // Remove trailing whitespace at the end of non-blank lines.
@@ -160,7 +158,7 @@ return $config
         // Removes unneeded parentheses around control statements.
         'no_unneeded_control_parentheses' => false,
         // Removes unneeded curly braces that are superfluous and aren't part of a control structure's body.
-        'no_unneeded_curly_braces' => true,
+        'no_unneeded_braces' => true,
         // A `final` class must not have `final` methods and `private` methods must not be `final`.
         'no_unneeded_final_method' => true,
         // In function arguments there must not be arguments with default values before non-default ones.
@@ -168,7 +166,7 @@ return $config
         // Variables must be set `null` instead of using `(unset)` casting.
         'no_unset_cast' => true,
         // Properties should be set to `null` instead of using `unset`.
-        'no_unset_on_property' => true,
+        'no_unset_on_property' => false,
         // Unused `use` statements must be removed.
         'no_unused_imports' => true,
         // There should not be useless `else` cases.
@@ -230,7 +228,7 @@ return $config
         // A PHP file without end tag must always end with a single empty line feed.
         'single_blank_line_at_eof' => true,
         // There should be exactly one blank line before a namespace declaration.
-        'single_blank_line_before_namespace' => true,
+        'blank_lines_before_namespace' => ['max_line_breaks' => 2, 'min_line_breaks' => 2],
         // There MUST NOT be more than one property or constant declared per statement.
         'single_class_element_per_statement' => true,
         // There MUST be one use keyword per declaration.
@@ -243,6 +241,8 @@ return $config
         'single_quote' => true,
         // Each trait `use` must be done as single statement.
         'single_trait_insert_per_statement' => true,
+        // There MUST NOT be a space after the opening parenthesis. There MUST NOT be a space before the closing parenthesis.
+        'spaces_inside_parentheses' => true,
         // Replace all `<>` with `!=`.
         'standardize_not_equals' => true,
         // Lambdas not (indirect) referencing `$this` must be declared `static`.
