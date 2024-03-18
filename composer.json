@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=8.0",
         "symfony/polyfill-mbstring": "^1.9",
         "symfony/polyfill-iconv": "^1.9"
     },

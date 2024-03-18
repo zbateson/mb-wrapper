@@ -4,7 +4,6 @@
  *
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
-
 namespace ZBateson\MbWrapper;
 
 /**
@@ -325,6 +324,38 @@ class MbWrapper
         return \preg_replace('/[^A-Z0-9]+/', '', $upper);
     }
 
+    private function iconv(string $fromCharset, string $toCharset, string $str) : string
+    {
+        $ret = @\iconv($fromCharset, $toCharset . '//TRANSLIT//IGNORE', $str);
+        if ($ret === false) {
+            throw new UnsupportedCharsetException("Unable to convert from charsets: $fromCharset to $toCharset");
+        }
+        return $ret;
+    }
+    
+    private function iconvStrlen(string $str, string $charset) : int
+    {
+        $ret = @\iconv_strlen($str, $charset . '//TRANSLIT//IGNORE');
+        if ($ret === false) {
+            throw new UnsupportedCharsetException("Charset $charset is not supported");
+        }
+        return $ret;
+    }
+    
+    private function iconvSubstr(string $str, string $charset, int $start, int $length = null) : string
+    {
+        $ret = @\iconv_substr($str, $start, $length, $charset . '//TRANSLIT//IGNORE');
+        if ($ret === false) {
+            $strLength = $this->iconvStrlen($str, $charset);
+            if ($start > $strLength) {
+                // returns empty to keep in line with mb_substr functionality
+                return '';
+            }
+            throw new UnsupportedCharsetException("Charset $charset is not supported");
+        }
+        return $ret;
+    }
+
     /**
      * Converts the passed string's charset from the passed $fromCharset to the
      * passed $toCharset
@@ -333,6 +364,7 @@ class MbWrapper
      * back to iconv if not.  If the source or destination character sets aren't
      * supported, a blank string is returned.
      *
+     * @throws UnsupportedCharsetException if iconv fails
      */
     public function convert(string $str, string $fromCharset, string $toCharset) : string
     {
@@ -347,16 +379,16 @@ class MbWrapper
         if ($str !== '') {
             if ($from !== false && $to === false) {
                 $str = \mb_convert_encoding($str, 'UTF-8', $from);
-                return \iconv('UTF-8', $this->getIconvAlias($toCharset) . '//TRANSLIT//IGNORE', $str);
+                return $this->iconv('UTF-8', $this->getIconvAlias($toCharset), $str);
             } elseif ($from === false && $to !== false) {
-                $str = \iconv($this->getIconvAlias($fromCharset), 'UTF-8//TRANSLIT//IGNORE', $str);
+                $str = $this->iconv($this->getIconvAlias($fromCharset), 'UTF-8', $str);
                 return \mb_convert_encoding($str, $to, 'UTF-8');
             } elseif ($from !== false && $to !== false) {
                 return \mb_convert_encoding($str, $to, $from);
             }
-            return \iconv(
+            return $this->iconv(
                 $this->getIconvAlias($fromCharset),
-                $this->getIconvAlias($toCharset) . '//TRANSLIT//IGNORE',
+                $this->getIconvAlias($toCharset),
                 $str
             );
         }
@@ -376,12 +408,14 @@ class MbWrapper
             return \mb_check_encoding($str, $mb);
         }
         $ic = $this->getIconvAlias($charset);
-        return (@\iconv($ic, $ic, $str) !== false);
+        return (@\iconv($ic, $ic . '//TRANSLIT//IGNORE', $str) !== false);
     }
 
     /**
      * Uses either mb_strlen or iconv_strlen to return the number of characters
      * in the passed $str for the given $charset
+     *
+     * @throws UnsupportedCharsetException if iconv fails
      */
     public function getLength(string $str, string $charset) : int
     {
@@ -389,12 +423,17 @@ class MbWrapper
         if ($mb !== false) {
             return \mb_strlen($str, $mb);
         }
-        return \iconv_strlen($str, $this->getIconvAlias($charset) . '//TRANSLIT//IGNORE');
+        return $this->iconvStrlen($str, $this->getIconvAlias($charset));
     }
 
     /**
      * Uses either mb_substr or iconv_substr to create and return a substring of
      * the passed $str.
+     * 
+     * If the offset provided in $start is greater than the length of the
+     * string, an empty string is returned.
+     *
+     * @throws UnsupportedCharsetException if iconv fails
      */
     public function getSubstr(string $str, string $charset, int $start, ?int $length = null) : string
     {
@@ -409,10 +448,7 @@ class MbWrapper
             $str = $this->convert($str, $ic, 'UTF-8');
             return $this->convert($this->getSubstr($str, 'UTF-8', $start, $length), 'UTF-8', $ic);
         }
-        if ($length === null) {
-            $length = \iconv_strlen($str, $ic . '//TRANSLIT//IGNORE');
-        }
-        return \iconv_substr($str, $start, $length, $ic . '//TRANSLIT//IGNORE');
+        return $this->iconvSubstr($str, $ic, $start, $length);
     }
 
     /**

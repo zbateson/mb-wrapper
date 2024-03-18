@@ -204,4 +204,35 @@ class MbWrapperTest extends TestCase
 
         }
     }
+    
+    public function testConvertInvalidCharset() : void
+    {
+        $this->expectException(UnsupportedCharsetException::class);
+        $test = 'This is my string';
+        $converter = new MbWrapper();
+        $converter->convert($converter->convert($test, 'UTF-8', 'ASDF-ABC-123'), 'ASDF-ABC-123', 'UTF-8');
+    }
+    
+    public function testLengthInvalidCharset() : void
+    {
+        $this->expectException(UnsupportedCharsetException::class);
+        $test = 'This is my string';
+        $converter = new MbWrapper();
+        $converter->getLength($test, 'ASDF-ABC-123');
+    }
+    
+    public function testSubstrInvalidCharset() : void
+    {
+        $this->expectException(UnsupportedCharsetException::class);
+        $test = 'This is my string';
+        $converter = new MbWrapper();
+        $converter->getSubstr($test, 'ASDF-ABC-123', 0);
+    }
+    
+    public function testSubstrInvalidOffset() : void
+    {
+        $test = 'Test';
+        $converter = new MbWrapper();
+        $this->assertEquals('', $converter->getSubstr($test, 'CP1250', 10));
+    }
 }
