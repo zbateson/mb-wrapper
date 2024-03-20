@@ -7,13 +7,13 @@
 
 namespace ZBateson\MbWrapper;
 
-use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Exception thrown if MbWrapper can't convert from or two a specified charset.
  *
  * @author Zaahid Bateson
  */
-class UnsupportedCharsetException extends InvalidArgumentException
+class UnsupportedCharsetException extends RuntimeException
 {
 }
