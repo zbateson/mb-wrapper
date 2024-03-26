@@ -368,6 +368,7 @@ class MbWrapper
      */
     public function convert(string $str, string $fromCharset, string $toCharset) : string
     {
+
         // there may be some mb-supported encodings not supported by iconv (on my libiconv for instance
         // HZ isn't supported), and so it may happen that failing an mb_convert_encoding, an iconv
         // may also fail even though both support an encoding separately.
@@ -375,6 +376,11 @@ class MbWrapper
 
         $from = $this->getMbCharset($fromCharset);
         $to = $this->getMbCharset($toCharset);
+        
+        // Skip conversion if charset is the same
+        if ($from === $to) {
+            return $str;
+        }
 
         if ($str !== '') {
             if ($from !== false && $to === false) {
