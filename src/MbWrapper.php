@@ -342,7 +342,7 @@ class MbWrapper
         return $ret;
     }
     
-    private function iconvSubstr(string $str, string $charset, int $start, int $length = null) : string
+    private function iconvSubstr(string $str, string $charset, int $start, ?int $length = null) : string
     {
         $ret = @\iconv_substr($str, $start, $length, $charset . '//TRANSLIT//IGNORE');
         if ($ret === false) {
