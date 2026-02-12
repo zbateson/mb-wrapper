@@ -2,21 +2,22 @@
 
 namespace ZBateson\MbWrapper;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Description of MbWrapperTest
  *
- * @group MbWrapper
  * @author Zaahid Bateson
  */
+#[Group('MbWrapper')]
 class MbWrapperTest extends TestCase
 {
     // CP1258 failing on some platforms (returns -1 chars for strlen for some reason)
     /**
      * @var array<string> $iconvSkip
      */
-    private $iconvSkip = [
+    private array $iconvSkip = [
         'CP1258',
         'CP037',
         'CP1026',
@@ -29,7 +30,7 @@ class MbWrapperTest extends TestCase
 
     public function testMbCharsetConversion() : void
     {
-        $arr = \array_unique(MbWrapper::$mbAliases);
+        $arr = \array_unique(MbWrapper::MB_ALIASES);
         $converter = new MbWrapper();
         $first = 'UTF-32';
         $test = $converter->convert('This is my string', 'UTF-8', $first);
@@ -43,7 +44,7 @@ class MbWrapperTest extends TestCase
 
     public function testIconvCharsetConversion() : void
     {
-        $arr = \array_unique(MbWrapper::$iconvAliases);
+        $arr = \array_unique(MbWrapper::ICONV_ALIASES);
         $converter = new MbWrapper();
         $first = 'CP1258';
         $test = $converter->convert('This is my string', 'UTF-8', 'CP1258');
@@ -57,21 +58,21 @@ class MbWrapperTest extends TestCase
     public function testMbConversionWithEmptyString() : void
     {
         $converter = new MbWrapper();
-        $cs = \reset(MbWrapper::$mbAliases);
+        $cs = MbWrapper::MB_ALIASES[\array_key_first(MbWrapper::MB_ALIASES)];
         $this->assertEmpty($converter->convert('', 'UTF-8', $cs));
     }
 
     public function testIconvConversionWithEmptyString() : void
     {
         $converter = new MbWrapper();
-        $cs = \reset(MbWrapper::$iconvAliases);
+        $cs = MbWrapper::ICONV_ALIASES[\array_key_first(MbWrapper::ICONV_ALIASES)];
         $this->assertEmpty($converter->convert('', 'UTF-8', $cs));
     }
 
     public function testMbIconvMixedCharsetConversion() : void
     {
-        $mbArr = \array_unique(MbWrapper::$mbAliases);
-        $iconvArr = \array_unique(MbWrapper::$iconvAliases);
+        $mbArr = \array_unique(MbWrapper::MB_ALIASES);
+        $iconvArr = \array_unique(MbWrapper::ICONV_ALIASES);
         $converter = new MbWrapper();
 
         $mb = \reset($mbArr);
@@ -113,7 +114,7 @@ class MbWrapperTest extends TestCase
 
     public function testMbStrlen() : void
     {
-        $arr = \array_unique(MbWrapper::$mbAliases);
+        $arr = \array_unique(MbWrapper::MB_ALIASES);
         $converter = new MbWrapper();
         $str = 'Needs to be simple, supported in all encodings';
         $len = \mb_strlen($str, 'UTF-8');
@@ -126,7 +127,7 @@ class MbWrapperTest extends TestCase
 
     public function testIconvStrlen() : void
     {
-        $arr = \array_unique(MbWrapper::$iconvAliases);
+        $arr = \array_unique(MbWrapper::ICONV_ALIASES);
         $converter = new MbWrapper();
         $str = 'Needs to be simple, supported in all encodings';
         $len = \mb_strlen($str, 'UTF-8');
@@ -146,7 +147,7 @@ class MbWrapperTest extends TestCase
 
     public function testMbSubstr() : void
     {
-        $arr = \array_unique(MbWrapper::$mbAliases);
+        $arr = \array_unique(MbWrapper::MB_ALIASES);
         $converter = new MbWrapper();
         $str = 'Needs to be simple';
         $len = \mb_strlen($str, 'UTF-8');
@@ -173,7 +174,7 @@ class MbWrapperTest extends TestCase
 
     public function testIconvSubstr() : void
     {
-        $arr = \array_unique(MbWrapper::$iconvAliases);
+        $arr = \array_unique(MbWrapper::ICONV_ALIASES);
         $converter = new MbWrapper();
         $str = 'Needs to be simple';
         $len = \mb_strlen($str, 'UTF-8');
@@ -204,7 +205,7 @@ class MbWrapperTest extends TestCase
 
         }
     }
-    
+
     public function testConvertInvalidCharset() : void
     {
         $this->expectException(UnsupportedCharsetException::class);
@@ -212,7 +213,7 @@ class MbWrapperTest extends TestCase
         $converter = new MbWrapper();
         $converter->convert($converter->convert($test, 'UTF-8', 'ASDF-ABC-123'), 'ASDF-ABC-123', 'UTF-8');
     }
-    
+
     public function testLengthInvalidCharset() : void
     {
         $this->expectException(UnsupportedCharsetException::class);
@@ -220,7 +221,7 @@ class MbWrapperTest extends TestCase
         $converter = new MbWrapper();
         $converter->getLength($test, 'ASDF-ABC-123');
     }
-    
+
     public function testSubstrInvalidCharset() : void
     {
         $this->expectException(UnsupportedCharsetException::class);
@@ -228,7 +229,7 @@ class MbWrapperTest extends TestCase
         $converter = new MbWrapper();
         $converter->getSubstr($test, 'ASDF-ABC-123', 0);
     }
-    
+
     public function testSubstrInvalidOffset() : void
     {
         $test = 'Test';

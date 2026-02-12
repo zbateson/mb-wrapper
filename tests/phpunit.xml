@@ -5,15 +5,13 @@
   colors="true"
   stopOnError="false"
   stopOnFailure="false"
-  stopOnIncomplete="false"
-  stopOnSkipped="false"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
 >
-  <coverage processUncoveredFiles="true">
+  <source>
     <include>
       <directory suffix=".php">../src/</directory>
     </include>
-  </coverage>
+  </source>
 
   <testsuites>
     <testsuite name="MbWrapper">

@@ -10,6 +10,6 @@ $config = include 'PhpCsFixer.php';
 
 return $config->setFinder(PhpCsFixer\Finder::create()
     ->exclude('vendor')
-    ->in(__DIR__.'\src')
-    ->in(__DIR__.'\tests')
+    ->in(__DIR__ . '/src')
+    ->in(__DIR__ . '/tests')
     );
