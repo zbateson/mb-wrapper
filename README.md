@@ -22,7 +22,7 @@ If this project's helped you, please consider [sponsoring me](https://github.com
 
 ## Requirements
 
-PHP 8.1 or newer. Tested on PHP 8.1, 8.2, 8.3, and 8.4.
+PHP 8.1 or newer. Tested on PHP 8.1, 8.2, 8.3, 8.4, and 8.5.
 
 ## Description
 
