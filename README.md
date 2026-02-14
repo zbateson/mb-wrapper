@@ -2,9 +2,7 @@
 
 Charset conversion and string manipulation wrapper with a large defined set of aliases.
 
-[![Tests](https://github.com/zbateson/mb-wrapper.svg/actions/workflows/tests.yml/badge.svg)](https://github.com/zbateson/mb-wrapper.svg/actions/workflows/tests.yml)
-[![Code Coverage](https://scrutinizer-ci.com/g/zbateson/mb-wrapper/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/zbateson/mb-wrapper/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zbateson/mb-wrapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zbateson/mb-wrapper/?branch=master)
+[![Build Status](https://github.com/zbateson/mb-wrapper/actions/workflows/tests.yml/badge.svg)](https://github.com/zbateson/mb-wrapper/actions/workflows/tests.yml)
 [![Total Downloads](https://poser.pugx.org/zbateson/mb-wrapper/downloads)](https://packagist.org/packages/zbateson/mb-wrapper)
 [![Latest Stable Version](https://poser.pugx.org/zbateson/mb-wrapper/version)](https://packagist.org/packages/zbateson/mb-wrapper)
 
