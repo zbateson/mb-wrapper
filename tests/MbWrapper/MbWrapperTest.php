@@ -230,6 +230,16 @@ class MbWrapperTest extends TestCase
         $converter->getSubstr($test, 'ASDF-ABC-123', 0);
     }
 
+    public function testCharsetWithConversionModifierIsHandled() : void
+    {
+        $converter = new MbWrapper();
+        $str = 'This is my string';
+        $this->assertSame(\strlen($str), $converter->getLength($str, 'UTF-8//TRANSLIT'));
+        $this->assertSame($str, $converter->convert($str, 'UTF-8//TRANSLIT', 'UTF-8'));
+        $this->assertSame('This', $converter->getSubstr($str, 'UTF-8//TRANSLIT', 0, 4));
+        $this->assertTrue($converter->checkEncoding($str, 'UTF-8//TRANSLIT'));
+    }
+
     public function testSubstrInvalidOffset() : void
     {
         $test = 'Test';

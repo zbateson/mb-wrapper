@@ -316,6 +316,16 @@ class MbWrapper
         return \preg_replace('/[^A-Z0-9]+/', '', $upper);
     }
 
+    /**
+     * Strips iconv conversion modifiers (e.g. '//TRANSLIT', '//IGNORE') that are
+     * not part of a charset name.
+     */
+    private function stripCharsetConversionModifier(string $cs) : string
+    {
+        $pos = \strpos($cs, '//');
+        return ($pos === false) ? $cs : \substr($cs, 0, $pos);
+    }
+
     private function iconv(string $fromCharset, string $toCharset, string $str) : string
     {
         $ret = @\iconv($fromCharset, $toCharset . '//TRANSLIT//IGNORE', $str);
@@ -454,7 +464,7 @@ class MbWrapper
      */
     private function getMbCharset(string $cs) : string|false
     {
-        $normalized = $this->getNormalizedCharset($cs);
+        $normalized = $this->getNormalizedCharset($this->stripCharsetConversionModifier($cs));
         if (\array_key_exists($normalized, self::$mbListedEncodings)) {
             return self::$mbListedEncodings[$normalized];
         } elseif (\array_key_exists($normalized, self::MB_ALIASES)) {
@@ -471,6 +481,7 @@ class MbWrapper
      */
     private function getIconvAlias(string $cs) : string
     {
+        $cs = $this->stripCharsetConversionModifier($cs);
         $normalized = $this->getNormalizedCharset($cs);
         if (\array_key_exists($normalized, self::ICONV_ALIASES)) {
             return self::ICONV_ALIASES[$normalized];
